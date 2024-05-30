@@ -2,7 +2,7 @@
 // 'use strict'
 {
     const add = document.getElementById("add");
-    const remove = document.getElementById("delete");
+    let remove = document.querySelectorAll("#remove");
     const purge = document.getElementById("purge");
     const textArea = document.getElementById("text");
     const ul = document.querySelector("ul");
@@ -11,7 +11,6 @@
         let text;
         if (textArea && "value" in textArea && textArea.value) {
             text = textArea.value.toString();
-            console.log(text);
             let li = document.createElement("li");
             let label = document.createElement("label");
             let input = document.createElement("input");
@@ -25,8 +24,27 @@
             button.textContent = "X";
             li.appendChild(label);
             li.appendChild(button);
+            li.id = Date.now().toString();
             ul === null || ul === void 0 ? void 0 : ul.appendChild(li);
             textArea.value = "";
         }
+        setId();
     });
+    function setId() {
+        remove = document.querySelectorAll("#remove");
+        remove.forEach(re => {
+            re.addEventListener('click', () => {
+                var _a;
+                let id = -1;
+                if (re.parentNode && "id" in re.parentNode)
+                    id = Number((_a = re.parentNode) === null || _a === void 0 ? void 0 : _a.id);
+                const liList = document.querySelectorAll("li");
+                liList.forEach(li => {
+                    if (Number(li.id) === id) {
+                        li.remove();
+                    }
+                });
+            });
+        });
+    }
 }
